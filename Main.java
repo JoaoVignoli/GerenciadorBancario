@@ -14,6 +14,7 @@ public class Main {
         ArrayList<String> clients = new ArrayList<>();
         ArrayList<Double> accountBalance = new ArrayList<>();
         ArrayList<Integer> accountsId = new ArrayList<>();
+        int accountId = 0;
 
         do {
             System.out.println(header +
@@ -40,8 +41,10 @@ public class Main {
                         System.out.print("Informe o saldo desejado: ");
                         initialBalance = console.nextDouble();
                     }
-                    int accountId = gerador.nextInt(1000);
+                    accountId = gerador.nextInt(1000, 2000);
+                    clients.add(name);
                     accountsId.add(accountId);
+                    // Criar validação se o ID já não existe
                     accountBalance.add(initialBalance);
                     System.out.print(header);
                     System.out.println("Seja bem vindo ao Banco Azul, Sr. " + new ArrayList<>(List.of(name.split(" "))).getLast() + "\n\n"+
@@ -49,6 +52,30 @@ public class Main {
                             "Nome: " + name + "\n" +
                             "Saldo inicial: " + initialBalance + "\n"
                     );
+                break;
+                case 2:
+                    accountId = 0;
+                    System.out.println(header);
+                    System.out.print("Informe o número da sua conta: ");
+                    accountId = console.nextInt();
+                    if (accountId > 1000) {
+                        for (int i = 0; i < accountsId.size();i++) {
+                            if (accountsId.get(i) == accountId) {
+                                System.out.println(header);
+                                String clientName = clients.get(i);
+                                System.out.println("Olá novamente Sr. " + new ArrayList<>(List.of(clientName.split(" "))).getLast() + "\n");
+                                System.out.print("Qual o valor que deseja depositar: ");
+                                double deposit = console.nextDouble();
+                                double actualBalance = accountBalance.get(i);
+                                actualBalance += deposit;
+                                System.out.println("Depósito realizado.\n" +
+                                        "Seu novo saldo é de: " + actualBalance + "\n");
+                                accountBalance.set(i,actualBalance);
+                            } else {
+                                System.out.println("Conta não localizada.");
+                            }
+                        }
+                    }
                 break;
                 default:
                     System.out.println("Operação: "+ taksID + " não reconhecida.");
